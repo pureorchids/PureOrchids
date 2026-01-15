@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* 
    Pure Orchids Miami - Baseplate Styles
    Theme: Clean, Modern, Luxury, Soft Floral
@@ -157,7 +156,8 @@ img {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 5%;
-    background-color: rgba(255, 252, 250, 0.95);
+    background-color: var(--color-bg-primary);
+    opacity: 0.95;
     z-index: 1000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 }
@@ -404,7 +404,7 @@ img {
 .contact-wrapper {
     display: flex;
     gap: var(--spacing-lg);
-    background: #fff;
+    background: var(--color-bg-primary);
     padding: var(--spacing-md);
     border: 1px solid #eee;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
