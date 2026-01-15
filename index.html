@@ -33,6 +33,7 @@
     <header id="hero" class="hero-section">
         <video autoplay muted loop playsinline class="hero-video">
             <source src="background.mov" type="video/mp4">
+            <!-- Fallback if user converts it, but sticking to .mov as requested -->
             Your browser does not support the video tag.
         </video>
         <div class="hero-overlay"></div>
@@ -53,29 +54,25 @@
             </div>
 
             <div class="gallery-grid">
-                <!-- Gallery Item 1 -->
+                <!-- Orchid #1 -->
                 <div class="gallery-item" onclick="openModal(1)">
-                    <div class="placeholder-img"><span>Example #1</span></div>
+                    <img src="Orchid%20%231/1.1.jpg" alt="Orchid #1" class="gallery-thumb">
+                    <div class="gallery-overlay"><span>Orchid #1</span></div>
                 </div>
-                <!-- Gallery Item 2 -->
+                <!-- Orchid #2 -->
                 <div class="gallery-item" onclick="openModal(2)">
-                    <div class="placeholder-img"><span>Example #2</span></div>
+                    <img src="Orchid%20%232/1.2.jpg" alt="Orchid #2" class="gallery-thumb">
+                    <div class="gallery-overlay"><span>Orchid #2</span></div>
                 </div>
-                <!-- Gallery Item 3 -->
+                <!-- Orchid #3 -->
                 <div class="gallery-item" onclick="openModal(3)">
-                    <div class="placeholder-img"><span>Example #3</span></div>
+                    <img src="Orchid%20%233/1.3.jpg" alt="Orchid #3" class="gallery-thumb">
+                    <div class="gallery-overlay"><span>Orchid #3</span></div>
                 </div>
-                <!-- Gallery Item 4 -->
+                <!-- Orchid #4 -->
                 <div class="gallery-item" onclick="openModal(4)">
-                    <div class="placeholder-img"><span>Example #4</span></div>
-                </div>
-                <!-- Gallery Item 5 -->
-                <div class="gallery-item" onclick="openModal(5)">
-                    <div class="placeholder-img"><span>Example #5</span></div>
-                </div>
-                <!-- Gallery Item 6 -->
-                <div class="gallery-item" onclick="openModal(6)">
-                    <div class="placeholder-img"><span>Example #6</span></div>
+                    <img src="Orchid%20%234/1.4.jpg" alt="Orchid #4" class="gallery-thumb">
+                    <div class="gallery-overlay"><span>Orchid #4</span></div>
                 </div>
             </div>
         </div>
@@ -87,7 +84,8 @@
             <div class="section-header center-text">
                 <span class="subheading">Get into Touch</span>
                 <h2>Begin Your Floral Journey</h2>
-                <p>We invite you to discuss your vision. Whether for a private residence, corporate space, or special
+                <p>We invite you to discuss your vision. Whether for a private residence, corporate space, or
+                    special
                     gift.</p>
             </div>
 
@@ -156,14 +154,14 @@
 
                 <!-- Image Container -->
                 <div class="modal-image-box">
-                    <span id="modal-text">Image Placeholder</span>
+                    <img id="modal-img" src="" alt="Orchid Detail" class="modal-img">
                 </div>
 
                 <button class="nav-btn next" onclick="nextImage()">&#10095;</button>
             </div>
 
             <div class="modal-footer">
-                <p>Swipe or click arrows to view more photos.</p>
+                <!-- <p>Swipe or click arrows to view more photos.</p> -->
             </div>
         </div>
     </div>
