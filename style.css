@@ -282,33 +282,75 @@ img {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    /* Limit to 2 columns for a more spacious, premium feel */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+    /* Increase gap significantly */
+    margin-top: 2rem;
 }
 
 .gallery-item {
-    /* Square images */
-    overflow: hidden;
+    /* Card Styling */
     position: relative;
     cursor: pointer;
-    /* Clickable */
+    background-color: #fff;
+    /* Distinct card background */
+    padding: 1rem;
+    /* Frame the image */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Soft shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.placeholder-img {
+.gallery-item:hover {
+    transform: translateY(-5px);
+    /* Lift effect */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Thumbnail Styling */
+.gallery-thumb {
     width: 100%;
     height: 100%;
-    background-color: #EBEBEB;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #999;
+    object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.gallery-item:hover .placeholder-img {
-    transform: scale(1.05);
-    /* Gentle zoom on hover */
-    background-color: #E3E8E4;
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-overlay span {
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-overlay::after {
+    content: "View Gallery";
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 20px;
+    border: 1px solid #fff;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
 }
 
 /* --- Modal / Lightbox Styles --- */
