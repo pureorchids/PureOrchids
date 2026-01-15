@@ -278,9 +278,8 @@ img {
 }
 
 .gallery-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 3rem;
     margin-top: 2rem;
 }
@@ -297,9 +296,10 @@ img {
     /* Soft shadow for depth */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    /* Flex sizing */
-    width: 400px;
-    max-width: 100%;
+    /* Grid sizing */
+    width: 100%;
+    aspect-ratio: 1 / 1.25;
+    /* Consistent height for all cards */
 }
 
 .gallery-item:hover {
