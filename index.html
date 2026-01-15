@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Orchids Miami</title>
+    <meta name="description"
+        content="Luxury floral arrangements in Miami. Pure Orchids Miami brings elegance and nature together.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">Pure Orchids Miami</div>
+        <ul class="nav-links">
+            <li><a href="#gallery">In Stock</a></li>
+            <li><a href="#contact">Inquire</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="hero-section">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="background.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="fade-in">Timeless Elegance in Every Bloom</h1>
+            <p class="fade-in-delay">Curated Orchid Arrangements for Miami's Finest Spaces</p>
+            <a href="#contact" class="btn-primary fade-in-delay-2">Experience Luxury</a>
+        </div>
+    </header>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section-padding bg-cream">
+        <div class="container">
+            <div class="section-header center-text">
+                <span class="subheading">Current Selection</span>
+                <h2>In Stock / Ready to Order</h2>
+                <p>Browse our available arrangements.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item" onclick="openModal(1)">
+                    <div class="placeholder-img"><span>Example #1</span></div>
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item" onclick="openModal(2)">
+                    <div class="placeholder-img"><span>Example #2</span></div>
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item" onclick="openModal(3)">
+                    <div class="placeholder-img"><span>Example #3</span></div>
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item" onclick="openModal(4)">
+                    <div class="placeholder-img"><span>Example #4</span></div>
+                </div>
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item" onclick="openModal(5)">
+                    <div class="placeholder-img"><span>Example #5</span></div>
+                </div>
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item" onclick="openModal(6)">
+                    <div class="placeholder-img"><span>Example #6</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding">
+        <div class="container narrow-container">
+            <div class="section-header center-text">
+                <span class="subheading">Get into Touch</span>
+                <h2>Begin Your Floral Journey</h2>
+                <p>We invite you to discuss your vision. Whether for a private residence, corporate space, or special
+                    gift.</p>
+            </div>
+
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <p><strong>Location:</strong> Miami / Kendall, FL</p>
+                    <p><strong>Email:</strong> hello@pureorchidsmiami.com</p>
+                    <p><strong>Hours:</strong> By Appointment Only</p>
+
+                    <div class="social-placeholders">
+                        <span class="social-icon">IG</span>
+                        <span class="social-icon">FB</span>
+                        <span class="social-icon">WA</span>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="whatsappForm" onsubmit="sendToWhatsApp(event)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="flower">Flower Requesting</label>
+                        <input type="text" id="flower" name="flower" placeholder="e.g. Example #3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Additional Notes</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Any specific details?"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Inquiry via WhatsApp</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h4>Pure Orchids Miami</h4>
+                <p>Elegant. Timeless. Pure.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Pure Orchids Miami. All Rights Reserved.</p>
+                <p>Designed in Miami.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal / Lightbox -->
+    <div id="product-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+
+            <div class="modal-header">
+                <h3 id="modal-title">Example #1</h3>
+            </div>
+
+            <div class="modal-body">
+                <button class="nav-btn prev" onclick="prevImage()">&#10094;</button>
+
+                <!-- Image Container -->
+                <div class="modal-image-box">
+                    <span id="modal-text">Image Placeholder</span>
+                </div>
+
+                <button class="nav-btn next" onclick="nextImage()">&#10095;</button>
+            </div>
+
+            <div class="modal-footer">
+                <p>Swipe or click arrows to view more photos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
