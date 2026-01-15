@@ -421,7 +421,8 @@ img {
 
 .modal-image-box {
     flex: 1;
-    height: 400px;
+    height: auto;
+    min-height: 200px;
     background-color: transparent;
     display: flex;
     justify-content: center;
