@@ -379,25 +379,29 @@ img {
 }
 
 .modal-content {
-    background-color: transparent;
+    background-color: transparent !important;
+    background: none !important;
     width: auto;
     max-width: 90%;
     padding: 0;
     position: relative;
     border-radius: 0;
     text-align: center;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .close-btn {
     position: absolute;
-    top: -40px;
+    top: -50px;
+    /* Moved slightly higher */
     right: 0;
     font-size: 2.5rem;
-    background: none;
+    background: none !important;
     border: none;
     cursor: pointer;
     color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    /* Shadow for visibility */
     z-index: 2001;
     transition: transform 0.2s;
 }
@@ -407,44 +411,53 @@ img {
 }
 
 .modal-header h3 {
-    margin-bottom: 1.5rem;
-    font-family: var(--font-heading);
-    color: var(--color-sage);
+    display: none;
+    /* Hide title in modal for cleaner look, user asked to remove text */
 }
 
 .modal-body {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    /* Center content */
     gap: 1rem;
+    background: transparent !important;
 }
 
 .modal-image-box {
     flex: 1;
     height: auto;
     min-height: 200px;
-    background-color: transparent;
+    background-color: transparent !important;
+    background: none !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
-    color: #666;
+    box-shadow: none !important;
+    border: none !important;
 }
 
 .nav-btn {
-    background: none;
-    border: 1px solid #ddd;
-    color: var(--color-text-main);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
     font-size: 1.5rem;
     padding: 10px 15px;
     cursor: pointer;
     transition: all 0.2s;
+    border-radius: 50%;
+    /* Circular buttons */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav-btn:hover {
-    background-color: var(--color-sage);
+    background: rgba(255, 255, 255, 0.3);
     color: white;
-    border-color: var(--color-sage);
+    border-color: #fff;
 }
 
 .modal-footer {
