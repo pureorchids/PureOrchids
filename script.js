@@ -5,14 +5,13 @@
 */
 
 // --- Gallery Data (Placeholders) ---
-// In a real scenario, you'd replace 'Photo 1', 'Photo 2' with actual image URLs.
+// --- Gallery Data (Real Images) ---
+// Folders: Orchid #1, Orchid #2, etc. (URL Encoded: Orchid%20%231)
 const galleryData = {
-    1: ["Example #1 - Main View", "Example #1 - Close Up", "Example #1 - Angle"],
-    2: ["Example #2 - Main View", "Example #2 - Detail"],
-    3: ["Example #3 - Main View", "Example #3 - Side", "Example #3 - Top Down"],
-    4: ["Example #4 - Full Setup", "Example #4 - Zoom"],
-    5: ["Example #5 - Main"],
-    6: ["Example #6 - Main", "Example #6 - Alternative"]
+    1: ["Orchid%20%231/1.1.jpg", "Orchid%20%231/2.1.jpg"],
+    2: ["Orchid%20%232/1.2.jpg", "Orchid%20%232/2.2.jpg", "Orchid%20%232/3.2.jpg"],
+    3: ["Orchid%20%233/1.3.jpg"],
+    4: ["Orchid%20%234/1.4.jpg", "Orchid%20%234/2.4.jpg"]
 };
 
 let currentExampleId = null;
@@ -20,7 +19,7 @@ let currentImageIndex = 0;
 
 // --- Modal Elements ---
 const modal = document.getElementById('product-modal');
-const modalText = document.getElementById('modal-text');
+const modalImg = document.getElementById('modal-img');
 const modalTitle = document.getElementById('modal-title');
 
 // --- Functions ---
@@ -58,14 +57,13 @@ function prevImage() {
 
 function updateModalContent() {
     const images = galleryData[currentExampleId];
-    const content = images[currentImageIndex];
+    const imageSrc = images[currentImageIndex];
 
     // Update Title
-    modalTitle.innerText = `Example #${currentExampleId} (${currentImageIndex + 1}/${images.length})`;
+    modalTitle.innerText = `Orchid #${currentExampleId} (${currentImageIndex + 1}/${images.length})`;
 
-    // Update Image/Placeholder
-    // If using real images: document.getElementById('modal-img').src = content;
-    modalText.innerText = content;
+    // Update Image
+    modalImg.src = imageSrc;
 }
 
 
