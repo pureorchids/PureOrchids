@@ -6,10 +6,10 @@
 
 :root {
     /* Color Palette */
-    --color-bg-primary: #FFFCFA;
-    /* Warm White / Cream */
-    --color-bg-secondary: #F7F5F2;
-    /* Light Gray/Beige for sections */
+    --color-bg-primary: #9a9ca2;
+    /* User requested gray to match video */
+    --color-bg-secondary: #9a9ca2;
+    /* Matching primary for seamless look */
     --color-sage: #8A9A5B;
     /* Muted Sage Green - Primary Accent */
     --color-sage-dark: #6E7D47;
@@ -535,6 +535,7 @@ footer {
         justify-content: center;
     }
 }
+
 =======
 /* 
    Pure Orchids Miami - Baseplate Styles
@@ -1072,4 +1073,5 @@ footer {
         justify-content: center;
     }
 }
->>>>>>> 104f66181cbe89c60bfaefc9429cae4a3357070b
+
+>>>>>>>104f66181cbe89c60bfaefc9429cae4a3357070b
