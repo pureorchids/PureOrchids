@@ -147,7 +147,8 @@ local function CreateDevLog(onContinue)
     local CoreGui = game:GetService("CoreGui")
     
     -- Safety Check for existing gui
-
+    if onContinue then onContinue() end
+end
 
 --// --- MAIN SCRIPT WRAPPER --- //
 local function StartTaxHub()
@@ -171,7 +172,6 @@ local Tw = true -- Smooth Mode Default
 
 --// MAIN SETTINGS
 local antiCheatEnabled = true 
-local antiCheatEnabled = true 
 local noclipEnabled = false
 local espEnabled = false
 local chamsEnabled = false
@@ -184,7 +184,6 @@ local camLockSystem = false
 local camLocking = false 
 local camMode = "Hold" 
 local teamCheck = false
-local lockKey = Enum.KeyCode.Q
 local lockKey = Enum.KeyCode.Q
 local hitboxEnabled, hitboxSize, hitboxTrans = false, 10, 0.5
 local phaseEnabled = false
