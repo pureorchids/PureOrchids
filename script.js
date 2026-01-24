@@ -1,10 +1,8 @@
-
 /*
     Pure Orchids Miami - Logic
     Handles Gallery Modal & WhatsApp Form
 */
 
-// --- Gallery Data (Placeholders) ---
 // --- Gallery Data (Real Images) ---
 // Folders: Orchid #1, Orchid #2, etc. (URL Encoded: Orchid%20%231)
 const galleryData = {
